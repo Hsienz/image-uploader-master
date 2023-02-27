@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	html,
+	body {
+        @apply bg-bg;
+	}
+    .container { 
+        @apply bg-white rounded-[12px] px-[32px] py-[36px];
+    }
+    h2 {
+        @apply text-gray_2 text-[18px] leading-[27px];
+    }
+    h3 {
+        @apply text-gray_3 text-[10px] leading-[15px];
+    }
+    h4,p {
+        @apply text-gray_4 text-[12px] leading-[18px];
+    }
+    .barLoader {
+        @apply bg-gray_6 #{!important};
+        span {
+            @apply bg-blue_1 #{!important};
+        }
+    }
+}
