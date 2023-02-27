@@ -1,27 +1,42 @@
 import React, { ChangeEvent, useRef, useState } from "react";
-
+import Image from "next/image";
 const Upload = () => {
-	const ref = useRef<HTMLInputElement>(null);
-	const handleOnChange = (e: ChangeEvent) => {
-		console.log(e);
+	const inputRef = useRef<HTMLInputElement>(null);
+	const handleOnChange = async (e: ChangeEvent<HTMLInputElement>) => {
+		if( !e.target.files ) return
+		let formData = new FormData()
+		formData.append('image',e.target.files[0])
+		const res = await fetch('/api/upload', {
+			method: 'POST',
+			body: formData	
+		})
+		console.log(res)
 	};
 	return (
-		<div className="flex flex-col">
-			<h1> Upload your image</h1>
-			<p>File should be Jpeg, Png...</p>
-			<div className="border-4 border-dotted relative">
+		<div className="container flex flex-col items-center max-w-sm gap-4">
+			<h2> Upload your image</h2>
+			<h3>File should be Jpeg, Png...</h3>
+			<div className="relative w-full border-4 border-dashed aspect-[17/11] container flex flex-col justify-between items-center bg-bg border-pale_blue">
 				<input
-                    ref={ref}
+					ref={inputRef}
 					onChange={handleOnChange}
-					className="w-full h-full opacity-0 absolute top-0 left-0"
+					className="absolute top-0 left-0 w-full h-full opacity-0"
 					type="file"
 					name=""
 					id=""
 				/>
+				<Image src="/assets/image.svg" alt="" width={100} height={100}/>
 				<p>Drag & Drop your image here</p>
 			</div>
 			<p>or</p>
-            <button onClick={()=>ref.current?.click()}>Choose a file</button>
+			<div>
+				<button
+					className="text-white text-xs rounded-[8px] px-[16px] py-[8px] transition-all duration-200 hover:brightness-125 bg-blue_1"
+					onClick={(e) => { e.preventDefault(); inputRef.current?.click() } }
+				>
+					Choose a file
+				</button>
+			</div>
 		</div>
 	);
 };
