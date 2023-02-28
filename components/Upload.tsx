@@ -1,15 +1,30 @@
 import React, { ChangeEvent, useRef, useState } from "react";
 import Image from "next/image";
+import { useLevel } from "@/contexts/LevelContext";
+import { useImage } from "@/contexts/ImageContext";
 const Upload = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
+	const { setLevel } = useLevel();
+	const { setImage } = useImage();
 	const handleOnChange = async (e: ChangeEvent<HTMLInputElement>) => {
-		if( !e.target.files ) return
-		let formData = new FormData()
-		formData.append('image',e.target.files[0])
-		const res = await fetch('/api/upload', {
-			method: 'POST',
-			body: formData	
-		})
+		if (!e.target.files) return;
+		setLevel((x) => x + 1);
+		let formData = new FormData();
+		formData.append("image", e.target.files[0]);
+		const res = await fetch("/api/upload", {
+			method: "POST",
+			body: formData,
+		}).then(res=>{
+			setLevel( x => x+1 )
+			res.json().then( res=>{
+				setImage(res.filename)
+			}).catch( err => {
+				console.log(err)
+			})
+		}).catch(err=>{
+			console.log(err)
+			// setLevel( x => x-1 )
+		}) 
 		console.log(res)
 	};
 	return (
@@ -25,14 +40,22 @@ const Upload = () => {
 					name=""
 					id=""
 				/>
-				<Image src="/assets/image.svg" alt="" width={100} height={100}/>
+				<Image
+					src="/assets/image.svg"
+					alt=""
+					width={100}
+					height={100}
+				/>
 				<p>Drag & Drop your image here</p>
 			</div>
 			<p>or</p>
 			<div>
 				<button
 					className="text-white text-xs rounded-[8px] px-[16px] py-[8px] transition-all duration-200 hover:brightness-125 bg-blue_1"
-					onClick={(e) => { e.preventDefault(); inputRef.current?.click() } }
+					onClick={(e) => {
+						e.preventDefault();
+						inputRef.current?.click();
+					}}
 				>
 					Choose a file
 				</button>

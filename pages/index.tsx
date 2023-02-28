@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Poppins } from 'next/font/google'
-import Card from '@/components/Card'
+import CardWrapper from '@/components/CardWrapper'
 
 const  poppins = Poppins({weight:['500'], subsets:['latin']})
 
@@ -15,7 +15,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={poppins.className}>
-        <Card />
+        <CardWrapper />
       </main>
     </>
   )
