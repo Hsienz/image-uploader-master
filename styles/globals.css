@@ -15,7 +15,8 @@
   h3 {
     @apply text-gray_3 text-[10px] leading-[15px];
   }
-  h4, p {
+  h4,
+  p {
     @apply text-gray_4 text-[12px] leading-[18px];
   }
   .barLoader {
@@ -23,5 +24,14 @@
   }
   .barLoader span {
     @apply bg-blue_1 !important;
+  }
+  .moonLoader span:nth-child(2) {
+    @apply bg-gray_6 !important;
+  }
+  .moonLoader span:nth-child(1) {
+    @apply bg-blue_1 !important;
+  }
+  button {
+    @apply transition-all duration-300 hover:brightness-125;
   }
 }/*# sourceMappingURL=globals.css.map */

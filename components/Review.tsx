@@ -1,19 +1,23 @@
-import React,{useRef} from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useImage } from "@/contexts/ImageContext";
-import { useRouter } from "next/router";
-
+import { MoonLoader } from "react-spinners";
 const Review = () => {
 	const { image } = useImage();
-	const { basePath } = useRouter();
-    const inputRef = useRef<HTMLInputElement>(null)
-    const copy = () => {
-        if( inputRef.current?.value )
-            navigator.clipboard.writeText(inputRef.current?.value)
-    }
+	const inputRef = useRef<HTMLInputElement>(null);
+	const buttonRef = useRef<HTMLButtonElement>(null)
+	const [loaded, setLoaded] = useState(false);
+	const copy = async () => {
+		if (inputRef.current?.value)
+			navigator.clipboard.writeText(inputRef.current?.value);
+		buttonRef.current?.classList.add('!bg-green_1')
+		setTimeout(()=>{
+			buttonRef.current?.classList.remove('!bg-green_1')
+		}, 3000)
+	};
 	return (
-		<div className="container max-w-sm flex flex-col gap-[24px] items-center">
+		<div className="container max-w-[400px] flex flex-col gap-[24px] items-center">
 			<div className="flex items-center justify-center p-0 mx-auto rounded-full bg-green_1">
 				<Image
 					src="/assets/done_FILL0_wght700_GRAD0_opsz48.svg"
@@ -23,29 +27,43 @@ const Review = () => {
 				/>
 			</div>
 			<h2>Uploaded Successfully</h2>
-			<Link
-				target="_blank"
-				href={`./tmp/${image}`}
-				className="relative w-full aspect-[17/11]"
-			>
-				<Image
-					src={`./tmp/${image}`}
-					alt=""
-					fill={true}
-					style={{ objectFit: "cover" }}
-				/>
-			</Link>
-			<div className="flex border-2 border-gray_6">
+			<div className="relative w-full aspect-[17/11] flex items-center justify-center">
+				{image && (
+					<Link
+						target="_blank"
+						href={image}
+						className={`relative w-full h-full`}
+					>
+						<Image
+							src={image}
+							alt=""
+							fill={true}
+							style={{ objectFit: "cover" }}
+							onLoadingComplete={() => {
+								setLoaded(true);
+							}}
+						/>
+					</Link>
+				)}
+				{!loaded && <MoonLoader className={`moonLoader !absolute !m-auto`}></MoonLoader>}
+			</div>
+			<div className="flex border-2 rounded-[8px] border-gray_5 w-full h-12">
 				<input
-                    ref={inputRef}
+					ref={inputRef}
 					type="text"
-					className="w-full px-2 overflow-ellipsis"
+					className="w-full px-2 overflow-ellipsis text-[8px] leading-[12px]"
 					name=""
 					id=""
-					value={`${basePath}/tmp/${image}`}
+					value={image}
 					disabled
 				/>
-                <button onClick={copy} className="bg-blue_1 rounded-[8px] px-[8px] py-[4px] text-white">Copy</button>
+				<button
+					ref={buttonRef}
+					onClick={copy}
+					className="bg-blue_1 m-1 text-[8px] leading-[12px] rounded-[8px] px-[16px] py-[4px] text-white whitespace-nowrap"
+				>
+					Copy Link
+				</button>
 			</div>
 		</div>
 	);
