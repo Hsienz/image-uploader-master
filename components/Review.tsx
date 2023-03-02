@@ -25,11 +25,11 @@ const Review = () => {
 			<h2>Uploaded Successfully</h2>
 			<Link
 				target="_blank"
-				href={`./uploads/${image}`}
+				href={`./tmp/${image}`}
 				className="relative w-full aspect-[17/11]"
 			>
 				<Image
-					src={`/tmp/${image}`}
+					src={`./tmp/${image}`}
 					alt=""
 					fill={true}
 					style={{ objectFit: "cover" }}
@@ -42,7 +42,7 @@ const Review = () => {
 					className="w-full px-2 overflow-ellipsis"
 					name=""
 					id=""
-					value={`${basePath}/uploads/${image}`}
+					value={`${basePath}/tmp/${image}`}
 					disabled
 				/>
                 <button onClick={copy} className="bg-blue_1 rounded-[8px] px-[8px] py-[4px] text-white">Copy</button>
