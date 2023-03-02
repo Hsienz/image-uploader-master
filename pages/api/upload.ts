@@ -19,7 +19,7 @@ const handler = (
             if( Array.isArray( files.image ) ) return 
             const image = files.image
             const data = fs.readFileSync(image.filepath)
-            url = `./public/uploads/${image.originalFilename}`
+            url = `/tmp/${image.originalFilename}`
             fs.writeFileSync( url, data)
             res.status(201).json({filename:image.originalFilename})
         })

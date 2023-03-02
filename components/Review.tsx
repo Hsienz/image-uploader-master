@@ -29,7 +29,7 @@ const Review = () => {
 				className="relative w-full aspect-[17/11]"
 			>
 				<Image
-					src={`/uploads/${image}`}
+					src={`/tmp/${image}`}
 					alt=""
 					fill={true}
 					style={{ objectFit: "cover" }}
